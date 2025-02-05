@@ -1,0 +1,7 @@
+# Python
+env/
+venv/
+
+# React
+node_modules/
+build/
