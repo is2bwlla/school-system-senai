@@ -18,14 +18,19 @@ class CreateUserView(APIView):
 
     def post(self, request):
         data = request.data
+
+        required_fields = ['ni', 'password', 'name', 'email', 'position']
+        for field in required_fields:
+            if field not in data:
+                return Response({"error": f"Campo '{field}' é obrigatório!"}, status=400)
+            
         try:
             user = Teacher.objects.create_user(
-                username=data['username'],
+                username=data['ni'],
                 password=data['password'],
                 name=data['name'],
                 email=data['email'],
                 position=data['position'],
-                ni=data['ni']
             )
             return Response({"message": f"User {user.username} created successfully!"}, status=201)
         except Exception as e:

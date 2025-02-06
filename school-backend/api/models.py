@@ -3,9 +3,6 @@ from django.contrib.auth.models import AbstractUser         #Modelo de usuário 
 
 
 class Teacher(AbstractUser):
-    first_name = None
-    last_name = None
-
     name = models.CharField(max_length=255, blank=True, null=True)  # Full name
     ni = models.CharField(max_length=15, blank=True, null=True)  # Identify number
     phone = models.CharField(max_length=15, blank=True, null=True)
