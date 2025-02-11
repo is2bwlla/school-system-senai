@@ -1,4 +1,5 @@
 import Header from "../componets/header";
+import EmployeeList from "../componets/employeeList";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,8 +20,11 @@ const Home = () => {
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
-      <Header userName={userName} />
-      {/* Agora o prompt de senha foi removido */}
+      <Header/>
+
+      <main className="mt-6">
+        <EmployeeList/>
+      </main>
     </div>
   );
 };

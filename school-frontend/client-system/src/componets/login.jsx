@@ -38,7 +38,7 @@ const Login = () => {
             const { access: token } = tokenResponse.data;
             localStorage.setItem("token", token);
             setSuccess("Login bem-sucedido!");
-            navigate("/home");
+            navigate("/");
         } catch (err) {
             setError("Credenciais inválidas. Tente novamente.");
         }
@@ -49,7 +49,7 @@ const Login = () => {
         setError("");
         setSuccess("");
     
-        if (!ni || !password || !firstName || !lastNam || !email) {
+        if (!ni || !password || !firstName || !lastName || !email) {
             setError("Preencha todos os campos.");
             return;
         }
@@ -70,7 +70,7 @@ const Login = () => {
     
             localStorage.setItem("token", tokenResponse.data.access);
             setSuccess("Cadastro realizado com sucesso!");
-            navigate("/home");
+            navigate("/");
         } catch (err) {
             setError(err.response?.data?.detail || "Erro ao cadastrar. Verifique os dados inseridos.");
         }

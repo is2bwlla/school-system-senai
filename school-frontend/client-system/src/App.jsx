@@ -20,7 +20,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={isLoggedIn ? <Home /> : <Login />} /> {/* Redireciona para login se não estiver logado */}
+          <Route path="/" element={isLoggedIn ? <Home /> : <Login />} /> {/* Redireciona para login se não estiver logado */}
         </Routes>
       </div>
     </Router>
