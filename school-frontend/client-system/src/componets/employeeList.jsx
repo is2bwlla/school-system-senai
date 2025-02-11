@@ -40,10 +40,11 @@ const EmployeeList = () => {
 
     // Função para abrir o modal e editar ou adicionar
     const openModal = (employee = null) => {
+        console.log(employee);
         setIsEditing(!!employee);
         setFormData({
             name: employee?.name || "",
-            ni: employee?.ni || "",
+            ni: employee?.username || "",
             phone: employee?.phone || "",
             position: employee?.position || "",
             email: employee?.email || "",
@@ -74,8 +75,8 @@ const EmployeeList = () => {
 
         const employeeData = {
             name: formData.name,
-            ni: formData.ni,
-            phone: formData.phone,
+            ni: formData.ni || selectedEmployee.ni,
+            phone: formData.phone || selectedEmployee.phone,
             position: formData.position,
             email: formData.email,
         };
