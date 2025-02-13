@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./componets/login";
 import Home from "./pages/home";
@@ -6,21 +6,22 @@ import Home from "./pages/home";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Verifique o token sempre que o componente for montado ou re-renderizado
   useEffect(() => {
-    // Verifica se o token existe no localStorage
     const token = localStorage.getItem("token");
-
     if (token) {
-      setIsLoggedIn(true); // Define como logado se o token existir
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false); // Caso o token não exista, garantir que a navegação para login aconteça
     }
-  }, []);
+  }, []); // Só verifica uma vez na montagem
 
   return (
-    <Router> {/* Colocando o Router ao redor de toda a aplicação */}
+    <Router>
       <div>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={isLoggedIn ? <Home /> : <Login />} /> {/* Redireciona para login se não estiver logado */}
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/" element={isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />}/>
         </Routes>
       </div>
     </Router>

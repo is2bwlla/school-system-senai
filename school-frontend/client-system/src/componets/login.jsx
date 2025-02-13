@@ -19,6 +19,16 @@ const Login = () => {
     const navigate = useNavigate(); // Hook de navegação
     const API_URL = "http://127.0.0.1:8000";
 
+    // Função para formatar o telefone
+    const formatPhone = (phone) => {
+        // Remove todos os caracteres não numéricos
+        phone = phone.replace(/\D/g, '');
+        // Se o telefone não tiver o tamanho correto, retorna ele sem formatação
+        if (phone.length !== 11) return phone;
+        // Retorna o telefone formatado
+        return `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`;
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
@@ -42,7 +52,7 @@ const Login = () => {
         } catch (err) {
             setError("Credenciais inválidas. Tente novamente.");
         }
-    };    
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -54,15 +64,21 @@ const Login = () => {
             return;
         }
     
+        // Formatação do telefone antes de enviar
+        const formattedPhone = formatPhone(phone);
+    
         try {
             const response = await axios.post(`${API_URL}/api/register/`, {
-                ni: ni,
+                ni: ni,  // Assegure-se de que está enviando o 'ni' corretamente
                 name: `${firstName} ${lastName}`,
                 email: email,
-                position: "Professor",
+                phone: formattedPhone,
+                position: position,
                 password: password
             });
-
+            console.log(response.data);  // Aqui você verá os dados completos retornados do backend
+            
+            // Login após cadastro
             const tokenResponse = await axios.post(`${API_URL}/api/token/`, {
                 username: ni,
                 password: password,
@@ -71,6 +87,7 @@ const Login = () => {
             localStorage.setItem("token", tokenResponse.data.access);
             setSuccess("Cadastro realizado com sucesso!");
             navigate("/");
+    
         } catch (err) {
             setError(err.response?.data?.detail || "Erro ao cadastrar. Verifique os dados inseridos.");
         }
@@ -190,6 +207,14 @@ const Login = () => {
                         className="bg-gray-300 text-gray-700 rounded-md p-2 w-full hover:bg-gray-400 transition duration-200"
                         onClick={() => {
                             setIsRegister(!isRegister);
+                            // Resetando campos ao alternar entre login e cadastro
+                            setNI("");
+                            setPassword("");
+                            setFirstName("");
+                            setLastName("");
+                            setEmail("");
+                            setPhone("");
+                            setPosition("");
                             setError("");
                             setSuccess("");
                         }}
